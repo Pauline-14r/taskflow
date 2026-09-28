@@ -1,0 +1,19 @@
+import type {Task} from "../types/task.ts";
+import {ApiError} from "../errors/ApiError.ts";
+
+export async function getProjectTasks(accessToken: string, projectId: string) : Promise<Task[]> {
+    const url = `http://localhost:4000/api/projects/${projectId}/tasks`;
+    const options = {
+        method: "GET",
+        headers: {
+            Authorization: `Bearer ${accessToken}`,
+        }
+    }
+
+    const response = await fetch(url, options);
+    if (!response.ok) {
+        throw new ApiError('Request failed', response.status);
+    }
+    const data: Task[] = await response.json();
+    return data;
+}

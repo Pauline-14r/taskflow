@@ -1,18 +1,21 @@
-import {Card, Typography, Form, Input, Button} from 'antd';
+import {Card, Typography, Form, Input, Button, Alert} from 'antd';
 import {LockOutlined} from '@ant-design/icons';
 import styles from './LoginPage.module.css';
 import {type LoginRequest} from "../../api/auth.ts";
 import {ApiError} from "../../errors/ApiError.ts";
 import {useState} from "react";
 import {useAuth} from "../../context/useAuth.ts";
+import {useNavigate} from "react-router-dom";
 
 function LoginPage() {
     const {login} = useAuth();
+    const navigate = useNavigate();
     const [error, setError] = useState<string | undefined>(undefined);
 
     async function handleFinish(values: LoginRequest) {
         try {
             await login(values);
+            navigate('/projects');
         }
         catch (error) {
             if (error instanceof ApiError) {
@@ -56,6 +59,7 @@ function LoginPage() {
                         rules={[{required: true}, {min: 6}]}>
                         <Input.Password prefix={<LockOutlined />} placeholder="Password" />
                     </Form.Item>
+                    {error === undefined ? null : <Alert type='error' title={error}></Alert>}
                     <Form.Item>
                         <Button type="primary" htmlType="submit">Log in</Button>
                     </Form.Item>

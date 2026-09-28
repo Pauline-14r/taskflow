@@ -1,11 +1,11 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import LoginPage from './pages/LoginPage/LoginPage.tsx'
-import ProjectsPage from './pages/ProjectsPage'
+import ProjectsPage from './pages/ProjectsPage/ProjectsPage.tsx'
 import NotFoundPage from './pages/NotFoundPage'
 import Layout from "./layouts/Layout.tsx";
 import ProfilePage from "./pages/ProfilePage.tsx";
 import SettingsPage from "./pages/SettingsPage.tsx";
-import ProjectPage from "./pages/ProjectPage.tsx";
+import ProjectPage from "./pages/ProjectPage/ProjectPage.tsx";
 import TaskDetailsPage from "./pages/TaskDetailsPage.tsx";
 import {ProtectedRoute} from "./routes/ProtectedRoute.tsx";
 

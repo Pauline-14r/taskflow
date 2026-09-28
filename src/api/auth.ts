@@ -1,14 +1,5 @@
 import {ApiError} from "../errors/ApiError.ts";
-
-export type UserRole = 'ADMIN' | 'USER';
-
-export interface User {
-    id: string;
-    name: string;
-    email: string;
-    role: UserRole;
-    avatar: string | null;
-}
+import type {User} from "../types/user.ts";
 
 export type LoginRequest = {
     email: string;
