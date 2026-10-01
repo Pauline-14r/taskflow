@@ -17,3 +17,19 @@ export async function getProjectTasks(accessToken: string, projectId: string) : 
     const data: Task[] = await response.json();
     return data;
 }
+
+export async function getTask(accessToken: string, taskId: string) : Promise<Task> {
+    const url = `http://localhost:4000/api/tasks/${taskId}`;
+    const options = {
+        method: "GET",
+        headers: {
+            Authorization: `Bearer ${accessToken}`,
+        }
+    }
+    const response = await fetch(url, options);
+    if (!response.ok) {
+        throw new ApiError('Request failed', response.status);
+    }
+    const data: Task = await response.json();
+    return data;
+}

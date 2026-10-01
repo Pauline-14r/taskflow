@@ -6,7 +6,7 @@ import Layout from "./layouts/Layout.tsx";
 import ProfilePage from "./pages/ProfilePage.tsx";
 import SettingsPage from "./pages/SettingsPage.tsx";
 import ProjectPage from "./pages/ProjectPage/ProjectPage.tsx";
-import TaskDetailsPage from "./pages/TaskDetailsPage.tsx";
+import TaskDetailsPage from "./pages/TaskDetailsPage/TaskDetailsPage.tsx";
 import {ProtectedRoute} from "./routes/ProtectedRoute.tsx";
 
 function App() {
