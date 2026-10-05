@@ -1,9 +1,9 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import LoginPage from './pages/LoginPage/LoginPage.tsx'
 import ProjectsPage from './pages/ProjectsPage/ProjectsPage.tsx'
-import NotFoundPage from './pages/NotFoundPage'
+import NotFoundPage from './pages/NotFoundPage/NotFoundPage.tsx'
 import Layout from "./layouts/Layout.tsx";
-import ProfilePage from "./pages/ProfilePage.tsx";
+import ProfilePage from "./pages/ProfilePage/ProfilePage.tsx";
 import SettingsPage from "./pages/SettingsPage.tsx";
 import ProjectPage from "./pages/ProjectPage/ProjectPage.tsx";
 import TaskDetailsPage from "./pages/TaskDetailsPage/TaskDetailsPage.tsx";

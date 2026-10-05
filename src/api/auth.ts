@@ -19,8 +19,9 @@ export interface RefreshResponse {
 
 export async function login (values: LoginRequest) {
     const url = 'http://localhost:4000/api/auth/login';
-    const options = {
+    const options: RequestInit = {
         method: 'POST',
+        credentials: "include",
         headers: {
             'Content-Type': 'application/json',
         },
@@ -37,7 +38,7 @@ export async function login (values: LoginRequest) {
 
 export async function refresh () : Promise<RefreshResponse> {
     const url = 'http://localhost:4000/api/auth/refresh';
-    const options = {
+    const options: RequestInit = {
         method: 'POST',
         credentials: 'include',
     }

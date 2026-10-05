@@ -1,18 +1,22 @@
-import {useParams} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import {useAuth} from "../../context/useAuth.ts";
 import {useEffect, useState} from "react";
 import type {Task} from "../../types/task.ts"
-import {getTask} from "../../api/tasks.ts";
-import {Button, Descriptions, Avatar, Tag, Spin, Alert} from "antd";
-import { UserOutlined } from '@ant-design/icons';
+import {deleteTask, getTask} from "../../api/tasks.ts";
+import {Button, Descriptions, Tag, Spin, Alert, Modal} from "antd";
 import {formatDate} from "../../utils/formateDate.ts"
+import {UserAvatar} from "../../components/UserAvatar/UserAvatar.tsx";
+import {EditTaskModal} from "../../components/EditTaskModal/EditTaskModal.tsx";
+import {ApiError} from "../../errors/ApiError.ts";
 
 function TaskDetailsPage() {
     const { taskId } = useParams();
     const { accessToken } = useAuth();
+    const  navigate = useNavigate();
     const [task, setTask] = useState<Task | null>(null);
     const [error, setError] = useState<string| null>(null);
     const [loading, setLoading] = useState<boolean>(false);
+    const [isEditModalOpen, setIsEditModalOpen] = useState(false);
 
     useEffect(() => {
         async function loadTask() {
@@ -34,12 +38,38 @@ function TaskDetailsPage() {
         loadTask();
     }, [accessToken, taskId]);
 
+    function handleDelete() {
+        Modal.confirm({
+            title: "Are you sure?",
+            onOk: async () => {
+                if (accessToken === null || task === null) {
+                    return;
+                }
+                try {
+                    await deleteTask(accessToken, task.id);
+                    navigate( `/projects/${task.projectId}`);
+                } catch (e) {
+                    if (e instanceof ApiError && e.status === 403) {
+                        setError("You don't have permission to delete this task");
+                    } else if (e instanceof Error) {
+                        setError("Failed to delete task");
+                    }
+                }
+            }
+        })
+    }
+
     return (
         <div>
             {loading && (<Spin />)}
             {typeof error === "string" && (<Alert type="error" title={error} />)}
             {task !== null && (
                 <div>
+                    <EditTaskModal
+                        task={task}
+                        isOpen={isEditModalOpen}
+                        onClose={() => setIsEditModalOpen(false)}
+                        onUpdated={(updatedTask) => setTask(updatedTask)} />
                     <div>
                         <Descriptions
                             column={1}
@@ -51,8 +81,10 @@ function TaskDetailsPage() {
                             }
                             extra={
                             <div>
-                                <Button type="primary">Edit</Button>
-                                <Button>Delete</Button>
+                                <Button
+                                    type="primary"
+                                    onClick={() => setIsEditModalOpen(true)}>Edit</Button>
+                                <Button onClick={handleDelete}>Delete</Button>
                             </div>}
                             items={[
                                 {
@@ -71,10 +103,7 @@ function TaskDetailsPage() {
                                     children: (
                                         task.assignee ?
                                             <div>
-                                                <Avatar
-                                                    icon={task.assignee.avatar ? null : <UserOutlined/>}
-                                                    src={task.assignee.avatar ? task.assignee.avatar : null}
-                                                />
+                                                <UserAvatar src={task.assignee.avatar} size="small" />
                                                 {task.assignee.name}
                                             </div>
                                             : "Unassigned"
@@ -112,7 +141,7 @@ function TaskDetailsPage() {
                                     children: formatDate(task.updatedAt),
                                 }
                             ]}
-                        ></Descriptions>
+                        />
                     </div>
                 </div>
             )}

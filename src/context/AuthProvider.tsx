@@ -1,5 +1,6 @@
 import {type ReactNode, useEffect, useState} from "react";
-import {login as apiLogin, refresh, type LoginRequest, type User, getMe} from "../api/auth.ts";
+import {login as apiLogin, refresh, type LoginRequest, getMe} from "../api/auth.ts";
+import type { User } from "../types/user.ts"
 import {AuthContext} from "./AuthContext.ts";
 
 export function AuthProvider ({children} : {children: ReactNode}) {

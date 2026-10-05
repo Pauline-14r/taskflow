@@ -1,4 +1,5 @@
 import type {User} from "./user";
+import type { Dayjs } from "dayjs";
 
 export type TaskStatus =
     | 'TODO'
@@ -49,4 +50,14 @@ export interface UpdateTaskRequest {
     assigneeId?: string | null;
     dueDate?: string | null;
     tagIds?: string[];
+}
+
+export interface EditTaskFormValues {
+    title: string;
+    description?: string;
+    status?: TaskStatus;
+    priority?: TaskPriority;
+    assigneeId?: string;
+    dueDate?: Dayjs;
+    tags?: string[];
 }

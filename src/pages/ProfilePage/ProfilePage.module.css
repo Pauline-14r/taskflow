@@ -1,0 +1,19 @@
+.profilePageWrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+}
+
+.avatarArea {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+.userName {
+    font-weight: bold;
+    color: black;
+}
